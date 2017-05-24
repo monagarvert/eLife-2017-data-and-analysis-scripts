@@ -7,23 +7,23 @@ Dependencies:
 
 Data files:
 All neural data files come in the following format: subjects x runs x object trial t-1 x object trial t
-ROI1.mat: 
+- ROI1.mat: 
 parameter estimates extracted from entorhinal ROI1 (contrast used to define ROI: associated < non-associated)
-ROI2.mat: 
+- ROI2.mat: 
 parameter estimates extracted from entorhinal ROI2 (contrast used to define ROI: length 2 < length 3)
-ROI3.mat: 
+- ROI3.mat: 
 parameter estimates extracted from entorhinal ROI3 (contrast used to define ROI: Chadwick et al. peak coordinate)
-ROI4.mat: 
+- ROI4.mat: 
 parameter estimates extracted from entorhinal ROI depicted in Figure 4B
-ROI5.mat: 
+- ROI5.mat: 
 parameter estimates extracted from anatomically defined region of interest depicted in Figure 2 – figure supplement 1.
-lOFC.mat: 
+- lOFC.mat: 
 parameter estimates extracted from OFC ROI (contrast used to define ROI: associated < non-associated)
-subgenual.mat: 
+- subgenual.mat: 
 parameter estimates extracted from OFC ROI (contrast used to define ROI: associated < non-associated)
-visual.mat: 
+- visual.mat: 
 parameter estimates extracted from OFC ROI (contrast used to define ROI: main effect of object onset)
-RT.mat: 
+- RT.mat: 
 log-transformed and demeaned response times, format: subj x runs x object on trial t-1 x object on trial t
 
 behaviour.mat:

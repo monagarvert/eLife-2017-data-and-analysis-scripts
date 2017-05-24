@@ -1,0 +1,122 @@
+%% Figure 3E
+%
+% parameter estimates extracted from ROI 3
+% data format: subjects x runs x object trial t-1 x object trial t
+%
+% (c) M.M. Garvert 2017
+
+clear c
+
+% Y_true = Y;
+Y_true = mdscale(to_mds,2);        
+
+[n1,n2] = find(triu(dist)==1);
+hold on 
+figure;
+
+Y_ix = perms(1:7);
+% Y_ix = Y_red;
+% Y = Y_true([1 4 3 2 5 6 7],:)
+
+c = zeros(5040,42);
+
+for h = 1:5040
+    if mod(h,100)==0
+        disp(h)
+    end
+    
+    Y = Y_true(Y_ix(h,:),:);
+    c(h,1) = 0;
+    counter = 0;
+    
+    for i = 1:7
+        for j = 1:7
+            if i ~=j
+                counter = counter+1;
+                
+%                 line1
+                x1  = [Y(n1(i),1) Y(n2(i),1)];
+                y1  = [Y(n1(i),2) Y(n2(i),2)];
+%                 line(x1, y1)
+
+%                 line2
+                x2  = [Y(n1(j),1) Y(n2(j),1)];
+                y2  = [Y(n1(j),2) Y(n2(j),2)];
+%                 line(x2, y2)
+
+                [xi,yi] = polyxpoly(x1,y1,x2,y2);
+
+                if ~isempty([xi,yi])
+                    if ~([xi,yi] == [Y(n1(i),1) Y(n2(i),1)] | [xi,yi] == [Y(n1(i),2) Y(n2(i),2)])
+                        c(h,counter) = 1;
+                    end
+                end
+                
+                
+            end
+        end
+    end
+    distances = squareform(pdist(Y));
+    
+    r(h) = corr(dist(eye(7)~=1),distances(eye(7)~=1));                
+    
+    
+%     if sum(c(h,:)) == 0
+%         figure;
+%                      scatter(Y(:,1),Y(:,2),'k','filled')
+%                      text(0.05+Y(:,1),0.05+Y(:,2),num2str((1:7)'))   % label objects
+%                      set(gcf,'color','w')
+%                      set(findobj(gcf, 'type','axes'), 'Visible','off')
+%                      
+%                      % Connect the objects that were experienced during training
+%                      [i,j] = find(dist==1);
+%                      l=line([Y(i,1),Y(j,1)]',[Y(i,2),Y(j,2)]');
+%                      set(l,'color','k');
+%                      axis equal
+%                      pause
+%                      close all
+%     end
+end
+
+c_plot = sum(c,2)/2;
+figure;
+subplot(1,2,1)
+hold on
+for i = 0:10
+    bar(i,sum(c_plot==i))
+end
+subplot(1,2,2)
+hist(r,20)
+
+Y_true = mdscale(to_mds,2);
+distances = squareform(pdist(Y_true));
+r_true = corr(dist(eye(7)~=1),distances(eye(7)~=1));
+    
+figure; scatter(c_plot,r);
+hold on
+scatter(0,r_true,'r')
+xlabel('Crossings')
+xlabel('Correlation with link distance')
+xlim([-1 8])
+ylim([ -1 1])
+
+for h = 1:5040
+    
+    if sum(c(h,:)) == 0
+        Y = Y_true(Y_ix(h,:),:);
+   
+        figure;
+        scatter(Y(:,1),Y(:,2),'k','filled')
+        text(0.05+Y(:,1),0.05+Y(:,2),num2str((1:7)'))   % label objects
+        set(gcf,'color','w')
+        set(findobj(gcf, 'type','axes'), 'Visible','off')
+
+        % Connect the objects that were experienced during training
+        [i,j] = find(dist==1);
+        l=line([Y(i,1),Y(j,1)]',[Y(i,2),Y(j,2)]');
+        set(l,'color','k');
+        axis equal
+        pause
+        close all
+    end
+end

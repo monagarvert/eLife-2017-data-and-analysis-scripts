@@ -1,5 +1,5 @@
 # eLife-2017-data-and-analysis-scripts
-These Matlab scripts &amp; data files can be used to reproduce the figures from Garvert et al., eLife 2017
+These Matlab scripts &amp; data files can be used to reproduce the figures from Garvert et al., eLife 2017, https://elifesciences.org/content/6/e17086
 
 Dependencies:
 - Matlab (we used 2014a but it should all work with previous versions)
